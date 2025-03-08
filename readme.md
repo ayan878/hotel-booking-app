@@ -383,7 +383,7 @@ Explanation:
 #### Create a `Dockerfile` for the frontend (`frontend/Dockerfile`):
 
 ```Dockerfile
-# Use the official Node.js image for React build
+# Use the official Node.js image from Docker Hub
 FROM node:18-alpine
 
 # Set working directory in the container
@@ -396,17 +396,12 @@ RUN npm install
 # Copy the rest of the app code
 COPY . .
 
-# Build the React app for production
-RUN npm run build
+# Expose the port that Vite runs on (default is 5173)
+EXPOSE 5173
 
-# Install an HTTP server to serve the app (e.g., serve)
-RUN npm install -g serve
+# Run the Vite development server
+CMD ["npm", "run", "dev"]
 
-# Expose port 3000
-EXPOSE 3000
-
-# Start the server to serve the built app
-CMD ["serve", "-s", "build"]
 ```
 
 Explanation:
@@ -605,3 +600,8 @@ hotel-booking-app/
 6. **Run**: Use `docker-compose up --build` to build and run the app in Docker.
 
 By following these steps, you have successfully containerized your MERN hotel booking app using Docker.
+
+
+# Frotend
+-  install vite `npm create vite@latest .`
+-  tailwind css  `npm install tailwindcss @tailwindcss/vite` 

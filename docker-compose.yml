@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  # Backend Service
+  backend:
+    build:
+      context: ./backend
+    container_name: hotel-booking-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/hotel-booking
+    depends_on:
+      - mongo
+    networks:
+      - hotel-booking-network
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+    container_name: hotel-booking-frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - hotel-booking-network
+    depends_on:
+      - backend
+
+  # MongoDB Service
+  mongo:
+    image: mongo:latest
+    container_name: hotel-booking-mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - hotel-booking-network
+    volumes:
+      - mongo-data:/data/db
+
+networks:
+  hotel-booking-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
