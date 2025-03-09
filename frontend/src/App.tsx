@@ -1,5 +1,11 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Outlet,
+} from "react-router-dom";
 import Layout from "./layout/Layout";
+import Registration from "./pages/Registration";
 
 function App() {
   return (
@@ -9,11 +15,11 @@ function App() {
           path="/"
           element={
             <Layout>
-              <p>Home Page</p>
+              <Registration/>
             </Layout>
           }
         />
-        <Route path="/search" element={<div>SearchPage</div>} />
+        <Route path="/registration" element={<Registration />} />
         {/* Using a div for simplicity */}
         <Route path="*" element={<div>HomePage</div>} /> {/* Catch-all route */}
       </Routes>
