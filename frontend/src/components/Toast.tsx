@@ -15,8 +15,8 @@ const Toast = ({ messsage, type, onClose }: ToastProps) => {
   }, [onClose]);
   const style =
     type === "SUCCESS"
-      ? "fixed top-4 right-4 z-50 py-2 px-4 bg-green-600 max-w-md"
-      : "fixed top-4 right-4 z-50 py-2 px-4 bg-red-600 max-w-md";
+      ? "fixed top-4 right-4 z-50 py-2 px-4 bg-green-600 max-w-md border-b-4 border-blue-600"
+      : "fixed top-4 right-4 z-50 py-2 px-4 bg-red-600 max-w-md border-b-4 border-blue-600";
   return (
     <div className={style}>
       <div className="flex justify-center items-center">
