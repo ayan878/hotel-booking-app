@@ -392,7 +392,11 @@
 // export default Registration;
 
 import { formOptions, useForm } from "@tanstack/react-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
+import { register } from "../api/userApi";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
 
 // Define the form data type
 export type RegisterFormData = {
@@ -420,6 +424,8 @@ const registerFormSchema = z
   });
 
 const Registration = () => {
+  const { showToast } = useAppContext();
+
   // Define form options with default values and Zod validation
   const formOpts = formOptions({
     defaultValues: {
@@ -435,10 +441,27 @@ const Registration = () => {
   const form = useForm({
     ...formOpts,
     onSubmit: async ({ value }) => {
-      // Do something with form data
-      console.log("Form Submitted with values:", value);
+      // Trigger mutation to submit the data to the backend
+      mutation.mutate(value); // Pass the form data to the mutation
     },
     validators: { onChange: registerFormSchema },
+  });
+
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  // Use the mutation hook for user registration
+  const mutation = useMutation({
+    mutationFn: register, // Call the register function
+    onSuccess: () => {
+      showToast({ message: "Registration Success", type: "SUCCESS" });
+      // After successful registration, you can invalidate queries or redirect
+      queryClient.invalidateQueries(["user"]);
+      navigate("/registration-success");
+    },
+    onError: (error: Error) => {
+      showToast({ message: error.message, type: "ERROR" });
+    },
   });
 
   return (
