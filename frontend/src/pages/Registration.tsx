@@ -452,12 +452,12 @@ const Registration = () => {
 
   // Use the mutation hook for user registration
   const mutation = useMutation({
-    mutationFn: register, // Call the register function
+    mutationFn: register, 
     onSuccess: () => {
       showToast({ message: "Registration Success", type: "SUCCESS" });
       // After successful registration, you can invalidate queries or redirect
       queryClient.invalidateQueries(["user"]);
-      navigate("/registration-success");
+      navigate("/");
     },
     onError: (error: Error) => {
       showToast({ message: error.message, type: "ERROR" });
