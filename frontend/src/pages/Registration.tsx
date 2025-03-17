@@ -456,7 +456,8 @@ const Registration = () => {
     onSuccess: () => {
       showToast({ message: "Registration Success", type: "SUCCESS" });
       // After successful registration, you can invalidate queries or redirect
-      queryClient.invalidateQueries({queryKey:["user"]});
+      queryClient.invalidateQueries({ queryKey: ["validateToken"] });
+
       navigate("/");
     },
     onError: (error: Error) => {
@@ -581,7 +582,10 @@ const Registration = () => {
         )}
       </form.Field>
       <div className="flex items-center justify-between">
-        <Link to="/login" className="cursor-pointer text-gray-700 hover:text-gray-500">
+        <Link
+          to="/login"
+          className="cursor-pointer text-gray-700 hover:text-gray-500"
+        >
           Already an account?
         </Link>
         {/* Submit Button */}
