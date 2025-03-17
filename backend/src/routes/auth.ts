@@ -1,5 +1,5 @@
-import { Router } from "express";
-import authentication from "../controllers/authentication";
+import { Request, Response, Router } from "express";
+import authentication from "../middleware/authentication";
 
 const router = Router();
 
@@ -45,6 +45,12 @@ const router = Router();
  *       500:
  *         description: Server error
  */
-router.post("/login", authentication);
+router.get(
+  "/validate-token",
+  authentication,
+  (req: Request, res: Response) => {
+    res.status(200).json({ userId: req.userId });
+  }
+);
 
 export default router;

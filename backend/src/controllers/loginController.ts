@@ -3,7 +3,10 @@ import { User } from "../models/user";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const authentication = async (req: Request, res: Response):Promise<any> => {
+const loginController = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
   try {
     const { email, password } = req.body;
 
@@ -37,20 +40,22 @@ const authentication = async (req: Request, res: Response):Promise<any> => {
       { expiresIn: "1d" }
     );
 
+    // Set the token in the response cookie
     res.cookie("auth_token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      httpOnly: true, // Cannot be accessed via JavaScript
+      secure: process.env.NODE_ENV === "production", // Ensures the cookie is sent only over HTTPS in production
       maxAge: 86400000,
     });
-    // Respond with the token
+
+    // Respond with a success message and user information
     return res.status(200).json({
-      message: "Authentication successful",
+      message: "Login successful",
       userId: user._id,
     });
   } catch (error) {
     console.error("Error in authentication:", error);
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 };
 
-export default authentication;
+export default loginController;

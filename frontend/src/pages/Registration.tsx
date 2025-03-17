@@ -395,7 +395,7 @@ import { formOptions, useForm } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
 import { register } from "../api/userApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 
 // Define the form data type
@@ -452,7 +452,7 @@ const Registration = () => {
 
   // Use the mutation hook for user registration
   const mutation = useMutation({
-    mutationFn: register, 
+    mutationFn: register,
     onSuccess: () => {
       showToast({ message: "Registration Success", type: "SUCCESS" });
       // After successful registration, you can invalidate queries or redirect
@@ -580,23 +580,30 @@ const Registration = () => {
           </label>
         )}
       </form.Field>
-
-      {/* Submit Button */}
-      <form.Subscribe
-        selector={(formState) => [formState.canSubmit, formState.isSubmitting]}
-      >
-        {([canSubmit, isSubmitting]) => (
-          <span>
-            <button
-              type="submit"
-              disabled={!canSubmit || isSubmitting}
-              className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl disabled:opacity-50"
-            >
-              {isSubmitting ? "Submitting..." : "Create Account"}
-            </button>
-          </span>
-        )}
-      </form.Subscribe>
+      <div className="flex items-center justify-between">
+        <Link to="/login" className="cursor-pointer text-gray-700 hover:text-gray-500">
+          Already an account?
+        </Link>
+        {/* Submit Button */}
+        <form.Subscribe
+          selector={(formState) => [
+            formState.canSubmit,
+            formState.isSubmitting,
+          ]}
+        >
+          {([canSubmit, isSubmitting]) => (
+            <span>
+              <button
+                type="submit"
+                disabled={!canSubmit || isSubmitting}
+                className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl disabled:opacity-50"
+              >
+                {isSubmitting ? "Submitting..." : "Create Account"}
+              </button>
+            </span>
+          )}
+        </form.Subscribe>
+      </div>
     </form>
   );
 };

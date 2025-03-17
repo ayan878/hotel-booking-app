@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  
+  --container-padding: 8rem; /* 4px padding */
+  --container-center: true;
 }
