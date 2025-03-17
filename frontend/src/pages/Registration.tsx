@@ -456,7 +456,7 @@ const Registration = () => {
     onSuccess: () => {
       showToast({ message: "Registration Success", type: "SUCCESS" });
       // After successful registration, you can invalidate queries or redirect
-      queryClient.invalidateQueries(["user"]);
+      queryClient.invalidateQueries({queryKey:["user"]});
       navigate("/");
     },
     onError: (error: Error) => {
