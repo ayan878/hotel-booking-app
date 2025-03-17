@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { loginApi } from "../api/loginApi";
+import { useAppContext } from "../context/AppContext";
 
 export type LoginFormData = {
   email: string;
@@ -30,13 +31,19 @@ export const Login = () => {
     validators: { onChange: loginSchema },
   });
 
+  const { showToast } = useAppContext();
+
   const navigate = useNavigate();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: loginApi,
     onSuccess: () => {
+      showToast({ message: "Registration Success", type: "SUCCESS" });
       queryClient.invalidateQueries({ queryKey: ["validateToken"] });
       navigate("/");
+    },
+    onError: (error) => {
+      showToast({ message: error.message, type: "ERROR" });
     },
   });
 
@@ -48,6 +55,7 @@ export const Login = () => {
         form.handleSubmit();
       }}
     >
+      <h1 className="text-3xl font-bold">Sign In</h1>
       <form.Field name="email">
         {(field) => (
           <label className="text-gray-700 text-sm font-bold">
@@ -90,17 +98,21 @@ export const Login = () => {
           </label>
         )}
       </form.Field>
-      <Link
-        to="/registration"
-        className="text-gray-700 cursor-pointer hover:text-gray-600"
-      >
-        Dont have an account?
-      </Link>
+
       <form.Subscribe
         selector={(formState) => [formState.canSubmit, formState.isSubmitting]}
       >
         {([canSubmit, isSubmitting]) => (
-          <span>
+          <span className="flex items-center justify-between">
+            <span className="text:sm">
+              Not Registered? {" "}
+              <Link
+                to="/registration"
+                className="underline text-gray-700 cursor-pointer hover:text-gray-600"
+              >
+                Create an account here?
+              </Link>
+            </span>
             <button
               disabled={!canSubmit || isSubmitting}
               type="submit"
