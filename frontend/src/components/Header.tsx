@@ -1,30 +1,9 @@
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useAppContext } from "../context/AppContext";
-import {
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
-import signOutApi from "../api/signOutApi";
+import SignOutButton from "./SignOutButton";
 
 const Header = () => {
-  const { isLoggedIn, showToast } = useAppContext();
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: signOutApi,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["validateToken"] });
-      showToast({ message: "Logout Success", type: "SUCCESS" });
-      navigate("/login"); // Redirect to login page
-    },
-    onError: (error: Error) => {
-      showToast({ message: error.message || "Logout failed", type: "ERROR" });
-    },
-  });
-
-  const handleLogout = () => {
-    mutation.mutate(); // Call logout function
-  };
+  const { isLoggedIn } = useAppContext();
   return (
     <div className="bg-blue-800 py-3">
       <div className="container mx-auto flex justify-between">
@@ -34,9 +13,19 @@ const Header = () => {
         <span className="flex space-x-2">
           {isLoggedIn ? (
             <>
-              <Link to="/my-bookings">My Bookings</Link>
-              <Link to="/my-hotels">My Hotels</Link>
-              <button onClick={handleLogout}>Sign Out</button>
+              <Link
+                className="flex items-center text-white px-3 font-bold hover:bg-blue-600"
+                to="/my-bookings"
+              >
+                My Bookings
+              </Link>
+              <Link
+                className="flex items-center text-white px-3 font-bold hover:bg-blue-600"
+                to="/my-hotels"
+              >
+                My Hotels
+              </Link>
+              <SignOutButton />
             </>
           ) : (
             <Link
