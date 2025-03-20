@@ -38,7 +38,7 @@ export const Login = () => {
   const mutation = useMutation({
     mutationFn: loginApi,
     onSuccess: () => {
-      showToast({ message: "Registration Success", type: "SUCCESS" });
+      showToast({ message: "Sign In Successful", type: "SUCCESS" });
       queryClient.invalidateQueries({ queryKey: ["validateToken"] });
       navigate("/");
     },

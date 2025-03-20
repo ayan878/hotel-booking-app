@@ -8,7 +8,7 @@ import { swaggerSpec } from "./swagger";
 import userRoutes from "./routes/userRoute";
 import loginRoutes from "./routes/loginRoute";
 import authRoutes from "./routes/auth";
-import signOutRoutes from "./routes/SignOutRoutes";
+import signOutRoutes from "./routes/signOutRoutes";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -33,13 +33,16 @@ app.use("/api/auth", signOutRoutes);
 
 
 
-const mongo_uri = process.env.MONGO_URI as string;
+const mongo_uri = process.env.MONGODB_CONNECTION_STRING as string;
 mongoose
   .connect(mongo_uri)
   .then(() => {
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
       console.log(`SwaggerUI is running on http://localhost:${port}/api-docs/`);
+      console.log(process.env.MONGODB_CONNECTION_STRING as string); // it is for end to end test
+
+
     });
   })
   .catch((err) => {
