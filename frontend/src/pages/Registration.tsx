@@ -484,6 +484,7 @@ const Registration = () => {
               <input
                 className="border rounded w-full py-1 px-2 font-normal"
                 type="text"
+                name="firstName"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
@@ -505,6 +506,7 @@ const Registration = () => {
               <input
                 className="border rounded w-full py-1 px-2 font-normal"
                 type="text"
+                name="lastName"
                 value={field.state.value}
                 onChange={(e) => field.handleChange(e.target.value)}
                 onBlur={field.handleBlur}
